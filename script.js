@@ -18,6 +18,7 @@
 ];
 
 const Core = globalThis.GameCore;
+const APP_VERSION = "v1.2.0";
 const STORAGE_KEY = "fruit-bingo-state-v1";
 
 const state = {
@@ -83,6 +84,7 @@ const ui = {
   p1Lines: gid("p1Lines"),
   p2Lines: gid("p2Lines"),
   toast: gid("resultToast"),
+  version: gid("appVersion"),
   share: gid("shareBtn"),
   install: gid("installBtn")
 };
@@ -104,6 +106,7 @@ function init() {
   syncTargetInput();
   updateModeOptions();
   renderPersistentLabels();
+  renderAppVersion();
   setPhase("等待開始");
   drawPlayBoards();
   bindInstallPrompt();
@@ -615,6 +618,10 @@ function clearSettings() {
   updateLineLabel();
   setPhase("等待開始");
   note("設定已清除，已恢復預設值");
+}
+
+function renderAppVersion() {
+  if (ui.version) ui.version.textContent = APP_VERSION;
 }
 
 async function shareGame() {

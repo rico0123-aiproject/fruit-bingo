@@ -78,6 +78,19 @@ body {
   line-height: 1.5;
 }
 
+.version-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 12px;
+  font-size: 0.86rem;
+  color: #8d2b5b;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid #ffc0dd;
+  border-radius: 999px;
+}
+
 .header-actions {
   margin-top: 16px;
   display: flex;

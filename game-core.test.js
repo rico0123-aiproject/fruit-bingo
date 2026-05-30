@@ -188,6 +188,14 @@ test("front-end includes share and install controls", () => {
   assert.match(html, /id="installBtn"/);
 });
 
+test("front-end includes visible app version", () => {
+  const html = fs.readFileSync("index.html", "utf8");
+  const script = fs.readFileSync("script.js", "utf8");
+  assert.match(html, /id="appVersion"/);
+  assert.match(script, /const APP_VERSION = "v1\.2\.0"/);
+  assert.match(script, /renderAppVersion\(\)/);
+});
+
 test("front-end registers service worker and share flow", () => {
   const script = fs.readFileSync("script.js", "utf8");
   assert.match(script, /registerServiceWorker\(\)/);
