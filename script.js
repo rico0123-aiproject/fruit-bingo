@@ -60,6 +60,7 @@ const ui = {
   view: gid("boardViewMode"),
   bestOfThree: gid("bestOfThree"),
   start: gid("startBtn"),
+  quickStart: gid("quickStartBtn"),
   reset: gid("resetSeriesBtn"),
   clearSettings: gid("clearSettingsBtn"),
   p2NameLabel: gid("p2NameLabel"),
@@ -111,6 +112,7 @@ function init() {
 
 function bindEvents() {
   ui.start.onclick = startGame;
+  ui.quickStart.onclick = startGame;
   ui.confirm.onclick = confirmSetup;
   ui.reset.onclick = resetSeries;
   ui.clearSettings.onclick = clearSettings;

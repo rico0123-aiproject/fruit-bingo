@@ -314,6 +314,16 @@ body.mode-pvc .p2-slot-field {
   gap: 8px;
 }
 
+.quick-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.quick-actions .btn {
+  min-width: 148px;
+}
+
 .notice {
   min-height: 1.4em;
   margin: 8px 0 0;
@@ -547,6 +557,20 @@ body.mode-pvc .board-card.p2 {
   .header-actions .btn,
   .actions .btn {
     flex: 1 1 100%;
+  }
+
+  .quick-actions {
+    position: sticky;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    z-index: 5;
+    justify-content: stretch;
+    margin-top: 14px;
+  }
+
+  .quick-actions .btn {
+    flex: 1 1 100%;
+    width: 100%;
+    box-shadow: 0 14px 28px rgba(255, 126, 182, 0.28);
   }
 
   .status-row {
