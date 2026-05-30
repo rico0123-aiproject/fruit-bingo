@@ -1,0 +1,21 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Runtime noise
+*.log
+
+# Local recovery artifacts and backups
+_backup_before_full_repair_20260429_055822/
+_backup_originals/
+_segment_probe/
+未命名檔案夾/
+usb_volume_D_20260429_061539.img
+repair_report.txt
+repair_attempt2_report.txt
+repair_final_report.txt
+full_repair_report.txt
+
+# Unused local photos
+*.jpg
+*.JPG

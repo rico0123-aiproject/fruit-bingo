@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff7eb6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="水果賓果" />
+  <title>可愛水果賓果</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Kosugi+Maru&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="app">
+    <header class="header">
+      <h1>水果賓果大對決</h1>
+      <p>點水果，同步圈選雙方盤面，先連線先贏</p>
+      <div class="header-actions">
+        <button id="shareBtn" class="btn secondary">分享遊戲</button>
+        <button id="installBtn" class="btn secondary hidden">安裝到手機</button>
+      </div>
+    </header>
+
+    <section class="panel settings">
+      <h2>遊戲設定</h2>
+      <div class="settings-grid">
+        <label class="settings-item mode-field">模式
+          <select id="mode">
+            <option value="pvp">雙人對戰</option>
+            <option value="pvc">單人 vs 電腦</option>
+          </select>
+        </label>
+        <label class="settings-item board-view-field">遊戲盤顯示
+          <select id="boardViewMode">
+            <option value="both">同時呈現</option>
+            <option value="turn">輪流出現</option>
+          </select>
+        </label>
+        <label class="settings-item p1-name-field p1-group-field">玩家1名稱
+          <input id="p1Name" type="text" value="玩家1" maxlength="12" />
+        </label>
+        <label class="settings-item p2-name-field p2-group-field"><span id="p2NameLabel">玩家2/電腦名稱</span>
+          <input id="p2Name" type="text" value="玩家2" maxlength="12" />
+        </label>
+        <label class="settings-item p1-placement-field p1-group-field">玩家1排盤方式
+          <select id="p1Placement">
+            <option value="manual">自行排盤</option>
+            <option value="random">亂數排盤</option>
+          </select>
+        </label>
+        <label id="p2PlacementWrap" class="settings-item p2-slot-field p2-group-field pvp-only">玩家2排盤方式
+          <select id="p2Placement">
+            <option value="manual">自行排盤</option>
+            <option value="random">亂數排盤</option>
+          </select>
+        </label>
+        <label id="pvcOrderWrap" class="settings-item p2-slot-field p2-group-field pvc-only">單人先後手
+          <select id="pvcOrder">
+            <option value="player_first">玩家先手</option>
+            <option value="cpu_first">電腦先手</option>
+          </select>
+        </label>
+        <label class="settings-item board-size-field">棋盤大小
+          <select id="boardSize">
+            <option value="3">3 x 3 (9格)</option>
+            <option value="4">4 x 4 (16格)</option>
+          </select>
+        </label>
+        <label class="settings-item target-field">勝利線數
+          <input id="targetLines" type="number" min="1" value="3" />
+        </label>
+      </div>
+
+      <div class="settings-toggles">
+        <label id="hideCpuWrap" class="checkbox-row toggle-left p2-group-field pvc-only">
+          <input id="hideCpuBoard" type="checkbox" />
+          單人模式隱藏電腦盤
+        </label>
+
+        <label class="checkbox-row toggle-right">
+          <input id="bestOfThree" type="checkbox" />
+          啟用 3戰2勝
+        </label>
+      </div>
+
+      <div class="settings-actions">
+        <div class="actions actions-primary">
+          <button id="startBtn" class="btn primary">開始新局</button>
+        </div>
+        <div class="actions actions-secondary">
+          <button id="resetSeriesBtn" class="btn">重置系列賽</button>
+          <button id="clearSettingsBtn" class="btn">清除設定</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="setupPanel" class="panel setup hidden">
+      <h2>排盤階段</h2>
+      <p id="setupHint"></p>
+      <div id="fruitPalette" class="caller-board"></div>
+      <div id="setupBoard" class="board"></div>
+      <div class="actions">
+        <button id="confirmSetupBtn" class="btn primary">確認排盤</button>
+      </div>
+    </section>
+
+    <section id="playPanel" class="hidden">
+      <section class="panel game"><h2>直接點盤面水果</h2><p>點任一盤面的水果即可叫牌，同水果會同步圈選在雙方盤面</p></section>
+
+      <section class="panel status">
+        <div class="status-row">
+          <span id="phaseLabel">等待開始</span>
+          <span id="lineLabel">P1線數: 0 | P2線數: 0</span>
+        </div>
+        <div class="status-row">
+          <span id="seriesLabel">系列賽：P1 0 勝 - P2 0 勝</span>
+        </div>
+        <p id="notice" class="notice"></p>
+      </section>
+
+      <section class="panel game">
+        <div id="resultToast" class="result-toast hidden"></div>
+        <div class="boards-wrap">
+          <div id="p1Card" class="board-card p1">
+            <h3 id="p1Title">玩家1賓果盤</h3>
+            <div class="board-shell"><div id="p1Board" class="board"></div><div id="p1Lines" class="lines-layer"></div></div>
+          </div>
+          <div id="p2Card" class="board-card p2">
+            <h3 id="p2Title">玩家2賓果盤</h3>
+            <div class="board-shell"><div id="p2Board" class="board"></div><div id="p2Lines" class="lines-layer"></div></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script src="game-core.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
